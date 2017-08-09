@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александра Щербинская](https://up.htmlacademy.ru/javascript/10/user/84441).
-* Наставник: [Денис Верхотуров] (https://htmlacademy.ru/profile/id56756).
+* Наставник: [Денис Верхотуров](https://htmlacademy.ru/profile/id56756).
 
 ---
 
