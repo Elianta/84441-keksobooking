@@ -127,19 +127,19 @@ var renderLodgePopupOffer = function (object) {
   return lodgePopupOffer;
 };
 
-var Offers = [];
+var offers = [];
 for (var i = 0; i < 8; i++) {
-  Offers.push(generateOffer(i + 1));
+  offers.push(generateOffer(i + 1));
 }
 
 var pinFragment = document.createDocumentFragment();
-for (var j = 0; j < Offers.length; j++) {
-  pinFragment.appendChild(generatePinElement(Offers[j]));
+for (var j = 0; j < offers.length; j++) {
+  pinFragment.appendChild(generatePinElement(offers[j]));
 }
 
 pinMap.appendChild(pinFragment);
 
-var newDialogPanel = renderLodgePopupOffer(Offers[0]);
+var newDialogPanel = renderLodgePopupOffer(offers[0]);
 
 offerDialog.replaceChild(newDialogPanel, oldDialogPanel);
-dialogTitle.querySelector('img').src = generateTitleImgSource(Offers[0]);
+dialogTitle.querySelector('img').src = generateTitleImgSource(offers[0]);
