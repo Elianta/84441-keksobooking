@@ -1,4 +1,6 @@
 'use strict';
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var OFFER_TITLES = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
@@ -16,12 +18,21 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var pinMap = document.querySelector('.tokyo__pin-map');
 var lodgeTemplate = document.querySelector('#lodge-template').content;
 var offerDialog = document.getElementById('offer-dialog');
-var oldDialogPanel = offerDialog.querySelector('.dialog__panel');
+var activePin;
+var offerDialogClose = offerDialog.querySelector('.dialog__close');
 var dialogTitle = offerDialog.querySelector('.dialog__title');
 var offerTitlesCopy = OFFER_TITLES.slice();
 
 var getRandomFromRange = function (min, max) {
   return (Math.random() * (max - min) + min);
+};
+
+var showElement = function (element) {
+  element.classList.remove('hidden');
+};
+
+var hideElement = function (element) {
+  element.classList.add('hidden');
 };
 
 var addZeros = function (number) {
@@ -73,7 +84,7 @@ var generateOffer = function (id) {
   };
 };
 
-var generatePinElement = function (object) {
+var generatePinElement = function (object, j) {
   var pinElement = document.createElement('div');
   var pinBackgroundWidth = 56;
   var pinBackgroundHeight = 75;
@@ -85,6 +96,8 @@ var generatePinElement = function (object) {
   pinElement.style.left = (object.location.x + pinPointerPosition.left) + 'px';
   pinElement.style.top = (object.location.y + pinPointerPosition.top) + 'px';
   pinElement.innerHTML = '<img src="' + object.author.avatar + '" class="rounded" width="40" height="40">';
+  pinElement.dataset.id = j;
+  pinElement.tabIndex = j;
   return pinElement;
 };
 
@@ -127,19 +140,69 @@ var renderLodgePopupOffer = function (object) {
   return lodgePopupOffer;
 };
 
-var offers = [];
-for (var i = 0; i < 8; i++) {
-  offers.push(generateOffer(i + 1));
-}
+var removeActivePin = function () {
+  activePin = pinMap.querySelector('.pin--active');
+  if (activePin) {
+    activePin.classList.remove('pin--active');
+  }
+};
 
+var showAndUpdateOfferDialog = function (target) {
+  var pinID = target.dataset.id;
+  var oldDialogPanel = offerDialog.querySelector('.dialog__panel');
+  var newDialogPanel = renderLodgePopupOffer(offers[pinID]);
+  showElement(offerDialog);
+  offerDialog.replaceChild(newDialogPanel, oldDialogPanel);
+  dialogTitle.querySelector('img').src = generateTitleImgSource(offers[pinID]);
+};
+
+var onPopupOfferEscPress = function (event) {
+  if (activePin && event.keyCode === ESC_KEYCODE) {
+    hideElement(offerDialog);
+    removeActivePin();
+  }
+};
+
+// Generating the array 'offers' of offer objects
+var offers = [];
+for (var i = 1; i < 9; i++) {
+  offers.push(generateOffer(i));
+}
+// Generating pins on map for each offer object
 var pinFragment = document.createDocumentFragment();
 for (var j = 0; j < offers.length; j++) {
-  pinFragment.appendChild(generatePinElement(offers[j]));
+  pinFragment.appendChild(generatePinElement(offers[j], j));
 }
-
 pinMap.appendChild(pinFragment);
 
-var newDialogPanel = renderLodgePopupOffer(offers[0]);
-
-offerDialog.replaceChild(newDialogPanel, oldDialogPanel);
-dialogTitle.querySelector('img').src = generateTitleImgSource(offers[0]);
+pinMap.addEventListener('click', function (event) {
+  var target = event.target.parentNode;
+  if (target.classList.contains('pin')) {
+    removeActivePin();
+    target.classList.add('pin--active');
+    showAndUpdateOfferDialog(target);
+    activePin = pinMap.querySelector('.pin--active');
+    document.addEventListener('keydown', onPopupOfferEscPress);
+  }
+});
+pinMap.addEventListener('keydown', function (event) {
+  var target = event.target;
+  if (target.classList.contains('pin') && event.keyCode === ENTER_KEYCODE) {
+    removeActivePin();
+    target.classList.add('pin--active');
+    showAndUpdateOfferDialog(target);
+    document.addEventListener('keydown', onPopupOfferEscPress);
+  }
+});
+offerDialogClose.addEventListener('click', function () {
+  removeActivePin();
+  hideElement(offerDialog);
+  document.removeEventListener('keydown', onPopupOfferEscPress);
+});
+offerDialogClose.addEventListener('keydown', function (event) {
+  if (event.keyCode === ENTER_KEYCODE) {
+    removeActivePin();
+    hideElement(offerDialog);
+    document.removeEventListener('keydown', onPopupOfferEscPress);
+  }
+});
