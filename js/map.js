@@ -175,34 +175,34 @@ for (var j = 0; j < offers.length; j++) {
 }
 pinMap.appendChild(pinFragment);
 
-pinMap.addEventListener('click', function (event) {
-  var target = event.target.parentNode;
-  if (target.classList.contains('pin')) {
-    removeActivePin();
-    target.classList.add('pin--active');
-    showAndUpdateOfferDialog(target);
-    activePin = pinMap.querySelector('.pin--active');
-    document.addEventListener('keydown', onPopupOfferEscPress);
-  }
-});
-pinMap.addEventListener('keydown', function (event) {
-  var target = event.target;
-  if (target.classList.contains('pin') && event.keyCode === ENTER_KEYCODE) {
-    removeActivePin();
-    target.classList.add('pin--active');
-    showAndUpdateOfferDialog(target);
-    document.addEventListener('keydown', onPopupOfferEscPress);
-  }
-});
-offerDialogClose.addEventListener('click', function () {
+var activatePinAndOffer = function (target) {
+  removeActivePin();
+  target.classList.add('pin--active');
+  showAndUpdateOfferDialog(target);
+  activePin = pinMap.querySelector('.pin--active');
+  document.addEventListener('keydown', onPopupOfferEscPress);
+};
+var deactivatePinAndOffer = function () {
   removeActivePin();
   hideElement(offerDialog);
   document.removeEventListener('keydown', onPopupOfferEscPress);
-});
-offerDialogClose.addEventListener('keydown', function (event) {
-  if (event.keyCode === ENTER_KEYCODE) {
-    removeActivePin();
-    hideElement(offerDialog);
-    document.removeEventListener('keydown', onPopupOfferEscPress);
+};
+var onPinMapEvent = function (event) {
+  var target = event.target;
+  if (event.type === 'click' || (event.type === 'keydown' && event.keyCode === ENTER_KEYCODE)) {
+    if (target.parentNode.classList.contains('pin')) {
+      activatePinAndOffer(target.parentNode);
+    } else if (target.classList.contains('pin')) {
+      activatePinAndOffer(target);
+    }
   }
-});
+};
+var onOfferDialogCloseEvent = function (event) {
+  if (event.type === 'click' || (event.type === 'keydown' && event.keyCode === ENTER_KEYCODE)) {
+    deactivatePinAndOffer();
+  }
+};
+pinMap.addEventListener('click', onPinMapEvent);
+pinMap.addEventListener('keydown', onPinMapEvent);
+offerDialogClose.addEventListener('click', onOfferDialogCloseEvent);
+offerDialogClose.addEventListener('keydown', onOfferDialogCloseEvent);
