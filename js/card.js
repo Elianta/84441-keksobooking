@@ -5,14 +5,15 @@
   var lodgeTemplate = document.querySelector('#lodge-template').content;
 
   var replaceOfferType = function (type) {
+    var result;
     if (type === 'flat') {
-      type = 'Квартира';
+      result = 'Квартира';
     } else if (type === 'bungalo') {
-      type = 'Бунгало';
+      result = 'Бунгало';
     } else {
-      type = 'Дом';
+      result = 'Дом';
     }
-    return type;
+    return result;
   };
 
   var generateOfferFeatureContainer = function (array) {
