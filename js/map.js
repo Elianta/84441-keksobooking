@@ -35,7 +35,7 @@
   var activatePinAndOffer = function (target) {
     window.pin.removeActivePin();
     target.classList.add('pin--active');
-    window.card.showAndUpdateOfferDialog(target);
+    window.card.showCard(target);
     window.pin.activePin = pinMap.querySelector('.pin--active');
     document.addEventListener('keydown', onPopupOfferEscPress);
   };
