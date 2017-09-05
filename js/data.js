@@ -64,10 +64,4 @@
       offer: offer
     };
   };
-
-  // Generating the array 'offers' of offer objects
-  window.offers = [];
-  for (var i = 1; i < 9; i++) {
-    window.offers.push(generateOffer(i));
-  }
 })();
