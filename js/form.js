@@ -71,6 +71,18 @@
     }
   };
 
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 1000; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    node.style.lineHeight = 2.0;
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
   synchronizeCapacity();
 
   window.synchronizeFields(checkinTime, checkoutTime, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
@@ -98,5 +110,12 @@
     address.value = 'x: ' + coordX + ', y: ' + coordY;
     pinMain.style.left = coordX + 'px';
     pinMain.style.top = coordY + 'px';
+  });
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    window.backend.save(new FormData(form), function () {
+      form.reset();
+    }, errorHandler);
   });
 })();

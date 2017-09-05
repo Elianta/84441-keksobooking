@@ -63,12 +63,29 @@
     }
   };
 
-  // Generating pins on map for each offer object
-  var pinFragment = document.createDocumentFragment();
-  for (var j = 0; j < window.offers.length; j++) {
-    pinFragment.appendChild(window.pin.generatePinElement(window.offers[j], j));
-  }
-  pinMap.appendChild(pinFragment);
+  var successHandler = function (offers) {
+    window.offers = offers;
+    // Generating pins on map for each offer object
+    var pinFragment = document.createDocumentFragment();
+    for (var j = 0; j < window.offers.length; j++) {
+      pinFragment.appendChild(window.pin.generatePinElement(window.offers[j], j));
+    }
+    pinMap.appendChild(pinFragment);
+  };
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    node.style.lineHeight = 2.0;
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.backend.load(successHandler, errorHandler);
 
   pinMap.addEventListener('click', onPinMapEvent);
   pinMap.addEventListener('keydown', onPinMapEvent);
