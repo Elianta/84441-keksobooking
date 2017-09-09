@@ -9,14 +9,14 @@
       left: -pinBackgroundWidth / 2,
       top: -pinBackgroundHeight
     },
-    generatePinElement: function (object, j) {
+    generatePinElement: function (object) {
       var pinElement = document.createElement('div');
       pinElement.className = 'pin';
       pinElement.style.left = (object.location.x + this.pointerPosition.left) + 'px';
       pinElement.style.top = (object.location.y + this.pointerPosition.top) + 'px';
       pinElement.innerHTML = '<img src="' + object.author.avatar + '" class="rounded" width="40" height="40">';
-      pinElement.dataset.id = j;
-      pinElement.tabIndex = j;
+      pinElement.dataset.id = object.id;
+      pinElement.tabIndex = object.id;
       return pinElement;
     },
     removeActivePin: function () {
