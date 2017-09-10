@@ -62,15 +62,43 @@
       deactivatePinAndOffer();
     }
   };
+  var filters = document.querySelector('.tokyo__filters');
+
+  var removeAllPins = function () {
+    var pins = document.querySelectorAll('.pin');
+    for (var j = 0; j < pins.length; j++) {
+      var pin = pins[j];
+      if (!pin.classList.contains('pin__main')) {
+        pinMap.removeChild(pin);
+      }
+    }
+  };
+
+  var generateOffersID = function (offers) {
+    for (var k = 0; k < offers.length; k++) {
+      offers[k].id = k;
+    }
+  };
+
+  var generatePinsOnMap = function () {
+    window.util.hideElement(offerDialog);
+    removeAllPins();
+    window.filters.updateSelectedFilters();
+    var suitableOffers = window.offers.filter(window.filters.isSuitableOffer.bind(window.filters));
+    var pinFragment = document.createDocumentFragment();
+    for (var j = 0; j < suitableOffers.length; j++) {
+      pinFragment.appendChild(window.pin.generatePinElement(suitableOffers[j], j));
+    }
+    pinMap.appendChild(pinFragment);
+  };
 
   var successHandler = function (offers) {
     window.offers = offers;
-    // Generating pins on map for each offer object
-    var pinFragment = document.createDocumentFragment();
-    for (var j = 0; j < window.offers.length; j++) {
-      pinFragment.appendChild(window.pin.generatePinElement(window.offers[j], j));
-    }
-    pinMap.appendChild(pinFragment);
+    generateOffersID(window.offers);
+    generatePinsOnMap();
+    filters.addEventListener('change', function () {
+      window.debounce(generatePinsOnMap);
+    });
   };
 
   var errorHandler = function (errorMessage) {
