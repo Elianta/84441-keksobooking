@@ -418,6 +418,13 @@ select option:hover {
     background: #dadad4;
 }
 
+.form__photo img {
+  vertical-align: middle;
+  width: 70px;
+  height: 70px;
+  border-radius: 4px;
+}
+
 .form__submit {
     display: block;
     margin: 35px auto;
