@@ -12,6 +12,10 @@
   var inputs = form.querySelectorAll('input');
   var address = form.querySelector('#address');
   var pinMain = document.querySelector('.pin__main');
+  var avatarFileChooser = document.querySelector('.notice__photo input[type=file]');
+  var avatarPreview = document.querySelector('.notice__preview');
+  var photosFileChooser = document.querySelector('.form__photo-container input[type=file]');
+  var photosPreview = document.querySelectorAll('.form__photo');
   var capacitySettings = {
     // Numbers in the array show which select options will be displayed in the list of capacity select.
     roomNumber1: ['1'],
@@ -82,6 +86,9 @@
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
   };
+
+  window.image.upload(avatarFileChooser, avatarPreview);
+  window.image.upload(photosFileChooser, photosPreview);
 
   synchronizeCapacity();
 
