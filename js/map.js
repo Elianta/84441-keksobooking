@@ -49,9 +49,9 @@
   var onPinMapEvent = function (event) {
     var target = event.target;
     if (event.type === 'click' || (event.type === 'keydown' && event.keyCode === window.keycode.ENTER)) {
-      if (target.parentNode.classList.contains('pin')) {
+      if (target.parentNode.classList.contains('pin') && !target.parentNode.classList.contains('pin__main')) {
         activatePinAndOffer(target.parentNode);
-      } else if (target.classList.contains('pin')) {
+      } else if (target.classList.contains('pin') && !target.parentNode.classList.contains('pin__main')) {
         activatePinAndOffer(target);
       }
     }
@@ -80,13 +80,14 @@
     }
   };
 
-  var generatePinsOnMap = function () {
+  var generatePinsOnMap = function (maxNumberToShow) {
     window.util.hideElement(offerDialog);
     removeAllPins();
     window.filters.updateSelectedFilters();
     var suitableOffers = window.offers.filter(window.filters.isSuitableOffer.bind(window.filters));
     var pinFragment = document.createDocumentFragment();
-    for (var j = 0; j < suitableOffers.length; j++) {
+    var pinsToShow = maxNumberToShow || suitableOffers.length;
+    for (var j = 0; j < pinsToShow; j++) {
       pinFragment.appendChild(window.pin.generatePinElement(suitableOffers[j], j));
     }
     pinMap.appendChild(pinFragment);
@@ -95,7 +96,7 @@
   var successHandler = function (offers) {
     window.offers = offers;
     generateOffersID(window.offers);
-    generatePinsOnMap();
+    generatePinsOnMap(3);
     filters.addEventListener('change', function () {
       window.debounce(generatePinsOnMap);
     });
