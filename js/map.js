@@ -36,7 +36,7 @@
   var activatePinAndOffer = function (target) {
     window.pin.removeActivePin();
     target.classList.add('pin--active');
-    window.card.showCard(target);
+    window.card.show(target);
     window.pin.activePin = pinMap.querySelector('.pin--active');
     document.addEventListener('keydown', onPopupOfferEscPress);
   };
@@ -84,7 +84,7 @@
   var generatePinsOnMap = function (maxNumberToShow) {
     window.util.hideElement(offerDialog);
     removeAllPins();
-    window.filters.updateSelectedFilters();
+    window.filters.updateSelected();
     var suitableOffers = window.offers.filter(window.filters.isSuitableOffer.bind(window.filters));
     var pinFragment = document.createDocumentFragment();
     var pinsToShow = maxNumberToShow || suitableOffers.length;

@@ -45,7 +45,7 @@
   };
 
   window.card = {
-    showCard: function (target) {
+    show: function (target) {
       var pinID = target.dataset.id;
       var oldDialogPanel = offerDialog.querySelector('.dialog__panel');
       var newDialogPanel = renderLodgePopupOffer(window.offers[pinID]);

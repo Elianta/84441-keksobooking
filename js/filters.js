@@ -60,7 +60,7 @@
 
   window.filters = {
     selected: '',
-    updateSelectedFilters: function () {
+    updateSelected: function () {
       this.selected = {
         type: typeFilter.selectedOptions[0].value,
         price: priceFilter.selectedOptions[0].value,
