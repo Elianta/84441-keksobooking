@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var NUMBER_OF_SHOWN_PINS = 3;
   var MAP_START = {
     x: 300,
     y: 100
@@ -9,7 +10,7 @@
     y: 640
   };
   var pinMap = document.querySelector('.tokyo__pin-map');
-  var offerDialog = document.getElementById('offer-dialog');
+  var offerDialog = document.querySelector('#offer-dialog');
   var offerDialogClose = offerDialog.querySelector('.dialog__close');
   var pinMain = document.querySelector('.pin__main');
   var address = document.querySelector('#address');
@@ -49,7 +50,7 @@
 
   var onPinMapEvent = function (event) {
     var target = event.target;
-    if (event.type === 'click' || (event.type === 'keydown' && event.keyCode === window.keycode.ENTER)) {
+    if (event.type === 'click' || (event.type === 'keydown' && event.keyCode === window.util.ENTER_KEYCODE)) {
       if (target.parentNode.classList.contains('pin') && !target.parentNode.classList.contains('pin__main')) {
         activatePinAndOffer(target.parentNode);
       } else if (target.classList.contains('pin') && !target.parentNode.classList.contains('pin__main')) {
@@ -59,7 +60,7 @@
   };
 
   var onOfferDialogCloseEvent = function (event) {
-    if (event.type === 'click' || (event.type === 'keydown' && event.keyCode === window.keycode.ENTER)) {
+    if (event.type === 'click' || (event.type === 'keydown' && event.keyCode === window.util.ENTER_KEYCODE)) {
       deactivatePinAndOffer();
     }
   };
@@ -85,7 +86,7 @@
     window.util.hideElement(offerDialog);
     removeAllPins();
     window.filters.updateSelected();
-    var suitableOffers = window.offers.filter(window.filters.isSuitableOffer.bind(window.filters));
+    var suitableOffers = window.map.offers.filter(window.filters.isSuitableOffer.bind(window.filters));
     var pinFragment = document.createDocumentFragment();
     var pinsToShow = maxNumberToShow || suitableOffers.length;
     for (var j = 0; j < pinsToShow; j++) {
@@ -95,9 +96,9 @@
   };
 
   var successHandler = function (offers) {
-    window.offers = offers;
-    generateOffersID(window.offers);
-    generatePinsOnMap(3);
+    window.map.offers = offers;
+    generateOffersID(window.map.offers);
+    generatePinsOnMap(NUMBER_OF_SHOWN_PINS);
     filters.addEventListener('change', function () {
       window.debounce(generatePinsOnMap);
     });

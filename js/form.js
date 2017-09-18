@@ -7,6 +7,11 @@
     roomNumber3: ['3', '2', '1'],
     roomNumber100: ['0']
   };
+  var CHECK_IN_TIMES = ['12:00', '13:00', '14:00'];
+  var CHECK_OUT_TIMES = ['12:00', '13:00', '14:00'];
+  var APARTMENT_TYPES = ['flat', 'bungalo', 'house', 'palace'];
+  var PRICES_PER_NIGHT = ['0', '1000', '5000', '10000'];
+
   var form = document.querySelector('.notice__form');
   var title = form.querySelector('#title');
   var checkinTime = form.querySelector('#timein');
@@ -92,8 +97,8 @@
 
   onCapacityChange();
 
-  window.synchronizeFields(checkinTime, checkoutTime, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
-  window.synchronizeFields(apartmentType, pricePerNight, ['flat', 'bungalo', 'house', 'palace'], ['0', '1000', '5000', '10000'], syncValueWithMin);
+  window.synchronizeFields(checkinTime, checkoutTime, CHECK_IN_TIMES, CHECK_OUT_TIMES, syncValues);
+  window.synchronizeFields(apartmentType, pricePerNight, APARTMENT_TYPES, PRICES_PER_NIGHT, syncValueWithMin);
   roomNumber.addEventListener('change', onCapacityChange);
   title.addEventListener('input', function () {
     setupMinLength(event, 30);

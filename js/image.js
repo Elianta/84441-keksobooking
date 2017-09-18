@@ -2,6 +2,7 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var SINGLE_CONTAINER_SIZE = 1;
   var insertImage = function (fileReaderObject, photoContainer) {
     if (photoContainer.innerHTML === '') {
       var newImage = document.createElement('img');
@@ -31,8 +32,8 @@
           });
           if (match) {
             for (var j = i; j < maxPhotosNumber; j++) {
-              var container = (maxPhotosNumber === 1) ? photoContainers : photoContainers[j];
-              if (maxPhotosNumber === 1 || container.innerHTML === '') {
+              var container = (maxPhotosNumber === SINGLE_CONTAINER_SIZE) ? photoContainers : photoContainers[j];
+              if (maxPhotosNumber === SINGLE_CONTAINER_SIZE || container.innerHTML === '') {
                 var reader = new FileReader();
                 insertImage(reader, container);
                 reader.readAsDataURL(file);
