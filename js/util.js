@@ -11,12 +11,6 @@
         action();
       }
     },
-    getRandomFromRange: function (min, max) {
-      return (Math.random() * (max - min) + min);
-    },
-    getRandomFromArray: function (array) {
-      return array[Math.floor(this.getRandomFromRange(0, array.length))];
-    },
     showElement: function (element) {
       element.classList.remove('hidden');
     },
