@@ -41,7 +41,7 @@
     element.placeholder = value;
   };
 
-  var synchronizeCapacity = function () {
+  var onCapacityChange = function () {
     var capacitySettingsKey = 'roomNumber' + roomNumber.selectedOptions[0].value;
     for (var p = 0; p < capacity.options.length; p++) {
       var optionsToShow = CAPACITY_SETTINGS[capacitySettingsKey];
@@ -90,11 +90,11 @@
   window.image.upload(avatarFileChooser, avatarPreview);
   window.image.upload(photosFileChooser, photosPreview);
 
-  synchronizeCapacity();
+  onCapacityChange();
 
   window.synchronizeFields(checkinTime, checkoutTime, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
   window.synchronizeFields(apartmentType, pricePerNight, ['flat', 'bungalo', 'house', 'palace'], ['0', '1000', '5000', '10000'], syncValueWithMin);
-  roomNumber.addEventListener('change', synchronizeCapacity);
+  roomNumber.addEventListener('change', onCapacityChange);
   title.addEventListener('input', function () {
     setupMinLength(event, 30);
   });
