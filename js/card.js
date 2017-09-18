@@ -1,29 +1,26 @@
 'use strict';
 (function () {
+  var OFFER_TYPES = {
+    'flat': 'Квартира',
+    'bungalo': 'Бунгало',
+    'house': 'Дом'
+  };
   var offerDialog = document.getElementById('offer-dialog');
   var titleDialog = offerDialog.querySelector('.dialog__title');
   var lodgeTemplate = document.querySelector('#lodge-template').content;
 
   var replaceOfferType = function (type) {
-    var result;
-    if (type === 'flat') {
-      result = 'Квартира';
-    } else if (type === 'bungalo') {
-      result = 'Бунгало';
-    } else {
-      result = 'Дом';
-    }
-    return result;
+    return OFFER_TYPES[type];
   };
 
   var generateOfferFeatureContainer = function (array) {
     var featuresFragment = document.createDocumentFragment();
-    for (var k = 0; k < array.length; k++) {
+    array.forEach(function (it) {
       var featureContainer = document.createElement('span');
       featureContainer.className = 'feature__image';
-      featureContainer.classList.add('feature__image--' + array[k]);
+      featureContainer.classList.add('feature__image--' + it);
       featuresFragment.appendChild(featureContainer);
-    }
+    });
     return featuresFragment;
   };
 

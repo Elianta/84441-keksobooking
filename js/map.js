@@ -77,18 +77,17 @@
 
   var removeAllPins = function () {
     var pins = document.querySelectorAll('.pin');
-    for (var j = 0; j < pins.length; j++) {
-      var pin = pins[j];
-      if (!pin.classList.contains('pin__main')) {
-        pinMap.removeChild(pin);
+    pins.forEach(function (it) {
+      if (!it.classList.contains('pin__main')) {
+        pinMap.removeChild(it);
       }
-    }
+    });
   };
 
   var generateOffersID = function (offers) {
-    for (var k = 0; k < offers.length; k++) {
-      offers[k].id = k;
-    }
+    offers.forEach(function (it, index) {
+      it.id = index;
+    });
   };
 
   var generatePinsOnMap = function (maxNumberToShow) {

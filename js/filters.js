@@ -1,5 +1,9 @@
 'use strict';
 (function () {
+  var CASE_ANY = 'any';
+  var CASE_LOW = 'low';
+  var CASE_MIDDLE = 'middle';
+  var CASE_HIGH = 'high';
   var formWithFilters = document.querySelector('.tokyo__filters');
   var typeFilter = formWithFilters.querySelector('#housing_type');
   var priceFilter = formWithFilters.querySelector('#housing_price');
@@ -8,12 +12,12 @@
 
   var getArrayOfSelectedItems = function (formElement, name) {
     var result = [];
-    for (var i = 0; i < formElement.elements[name].length; i++) {
-      var option = formElement.elements[name][i];
-      if (option.checked) {
-        result.push(option.value);
+    var array = formElement.elements[name];
+    array.forEach(function (it) {
+      if (it.checked) {
+        result.push(it.value);
       }
-    }
+    });
     return result;
   };
 
@@ -26,13 +30,13 @@
     var priceBreakPointLow = 10000;
     var priceBreakPointHigh = 50000;
     switch (price) {
-      case 'any':
+      case CASE_ANY:
         return true;
-      case 'low':
+      case CASE_LOW:
         return (offer.price < priceBreakPointLow);
-      case 'middle':
+      case CASE_MIDDLE:
         return (offer.price >= priceBreakPointLow && offer.price <= priceBreakPointHigh) || false;
-      case 'high':
+      case CASE_HIGH:
         return (offer.price > priceBreakPointHigh);
     }
     return false;
