@@ -1,13 +1,14 @@
 'use strict';
 (function () {
+  var PIN_BACKGROUND_WIDTH = 56;
+  var PIN_BACKGROUND_HEIGHT = 75;
   var pinMap = document.querySelector('.tokyo__pin-map');
-  var pinBackgroundWidth = 56;
-  var pinBackgroundHeight = 75;
+
   window.pin = {
     activePin: '',
     pointerPosition: {
-      left: -pinBackgroundWidth / 2,
-      top: -pinBackgroundHeight
+      left: -PIN_BACKGROUND_WIDTH / 2,
+      top: -PIN_BACKGROUND_HEIGHT
     },
     generatePinElement: function (object) {
       var pinElement = document.createElement('div');

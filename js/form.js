@@ -1,5 +1,12 @@
 'use strict';
 (function () {
+  var CAPACITY_SETTINGS = {
+    // Numbers in the array show which select options will be displayed in the list of capacity select.
+    roomNumber1: ['1'],
+    roomNumber2: ['2', '1'],
+    roomNumber3: ['3', '2', '1'],
+    roomNumber100: ['0']
+  };
   var form = document.querySelector('.notice__form');
   var title = form.querySelector('#title');
   var checkinTime = form.querySelector('#timein');
@@ -16,13 +23,6 @@
   var avatarPreview = document.querySelector('.notice__preview');
   var photosFileChooser = document.querySelector('.form__photo-container input[type=file]');
   var photosPreview = document.querySelectorAll('.form__photo');
-  var capacitySettings = {
-    // Numbers in the array show which select options will be displayed in the list of capacity select.
-    roomNumber1: ['1'],
-    roomNumber2: ['2', '1'],
-    roomNumber3: ['3', '2', '1'],
-    roomNumber100: ['0']
-  };
 
   var setupMinLength = function (event, minlength) {
     var target = event.target;
@@ -44,7 +44,7 @@
   var synchronizeCapacity = function () {
     var capacitySettingsKey = 'roomNumber' + roomNumber.selectedOptions[0].value;
     for (var p = 0; p < capacity.options.length; p++) {
-      var optionsToShow = capacitySettings[capacitySettingsKey];
+      var optionsToShow = CAPACITY_SETTINGS[capacitySettingsKey];
       var optionValue = capacity.options[p].value;
       var selectedOption;
       if (optionsToShow.indexOf(optionValue) !== -1) {

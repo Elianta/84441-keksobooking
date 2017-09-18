@@ -1,26 +1,27 @@
 'use strict';
 (function () {
+  var MAP_START = {
+    x: 300,
+    y: 100
+  };
+  var MAP_FINISH = {
+    x: 1160,
+    y: 640
+  };
   var pinMap = document.querySelector('.tokyo__pin-map');
   var offerDialog = document.getElementById('offer-dialog');
   var offerDialogClose = offerDialog.querySelector('.dialog__close');
   var pinMain = document.querySelector('.pin__main');
   var address = document.querySelector('#address');
-  var mapStart = {
-    x: 300,
-    y: 100
-  };
-  var mapFinish = {
-    x: 1160,
-    y: 640
-  };
+
   window.map = {
     pinPointerPositionX: {
-      min: mapStart.x + window.pin.pointerPosition.left,
-      max: mapFinish.x + window.pin.pointerPosition.left
+      min: MAP_START.x + window.pin.pointerPosition.left,
+      max: MAP_FINISH.x + window.pin.pointerPosition.left
     },
     pinPointerPositionY: {
-      min: mapStart.y + window.pin.pointerPosition.top,
-      max: mapFinish.y + window.pin.pointerPosition.top
+      min: MAP_START.y + window.pin.pointerPosition.top,
+      max: MAP_FINISH.y + window.pin.pointerPosition.top
     }
   };
   var onPopupOfferEscPress = function (event) {
