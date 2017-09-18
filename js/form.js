@@ -22,8 +22,6 @@
   var capacity = form.querySelector('#capacity');
   var submit = form.querySelector('.form__submit');
   var inputs = form.querySelectorAll('input');
-  var address = form.querySelector('#address');
-  var pinMain = document.querySelector('.pin__main');
   var avatarFileChooser = document.querySelector('.notice__photo input[type=file]');
   var avatarPreview = document.querySelector('.notice__preview');
   var photosFileChooser = document.querySelector('.form__photo-container input[type=file]');
@@ -104,25 +102,6 @@
     setupMinLength(event, 30);
   });
   submit.addEventListener('click', onSubmitClick);
-  address.addEventListener('change', function () {
-    var str = address.value;
-    var coords = str.match(/\d+/ig);
-    var coordX = +coords[0];
-    var coordY = +coords[1];
-    if (coordX > window.map.pinPointerPositionX.max) {
-      coordX = window.map.pinPointerPositionX.max;
-    } else if (coordX < window.map.pinPointerPositionX.min) {
-      coordX = window.map.pinPointerPositionX.min;
-    }
-    if (coordY > window.map.pinPointerPositionY.max) {
-      coordY = window.map.pinPointerPositionY.max;
-    } else if (coordY < window.map.pinPointerPositionY.min) {
-      coordY = window.map.pinPointerPositionY.min;
-    }
-    address.value = 'x: ' + coordX + ', y: ' + coordY;
-    pinMain.style.left = coordX + 'px';
-    pinMain.style.top = coordY + 'px';
-  });
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();
