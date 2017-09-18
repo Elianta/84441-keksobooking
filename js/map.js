@@ -14,6 +14,7 @@
   var offerDialogClose = offerDialog.querySelector('.dialog__close');
   var pinMain = document.querySelector('.pin__main');
   var address = document.querySelector('#address');
+  var filters = document.querySelector('.tokyo__filters');
 
   window.map = {
     pinPointerPositionX: {
@@ -27,7 +28,7 @@
   };
   var onPopupOfferEscPress = function (event) {
     window.util.isEscEvent(event, function () {
-      if (window.pin.activePin) {
+      if (window.pin.pinActive) {
         window.util.hideElement(offerDialog);
         window.pin.removeActivePin();
       }
@@ -38,7 +39,7 @@
     window.pin.removeActivePin();
     target.classList.add('pin--active');
     window.card.show(target);
-    window.pin.activePin = pinMap.querySelector('.pin--active');
+    window.pin.pinActive = pinMap.querySelector('.pin--active');
     document.addEventListener('keydown', onPopupOfferEscPress);
   };
 
@@ -48,23 +49,31 @@
     document.removeEventListener('keydown', onPopupOfferEscPress);
   };
 
-  var onPinMapEvent = function (event) {
+  var onPinMapClick = function (event) {
     var target = event.target;
-    if (event.type === 'click' || (event.type === 'keydown' && event.keyCode === window.util.ENTER_KEYCODE)) {
+    if (target.parentNode.classList.contains('pin') && !target.parentNode.classList.contains('pin__main')) {
+      activatePinAndOffer(target.parentNode);
+    } else if (target.classList.contains('pin') && !target.parentNode.classList.contains('pin__main')) {
+      activatePinAndOffer(target);
+    }
+  };
+  var onPinMapKeydown = function (event) {
+    var target = event.target;
+    window.util.isEnterEvent(event, function () {
       if (target.parentNode.classList.contains('pin') && !target.parentNode.classList.contains('pin__main')) {
         activatePinAndOffer(target.parentNode);
       } else if (target.classList.contains('pin') && !target.parentNode.classList.contains('pin__main')) {
         activatePinAndOffer(target);
       }
-    }
+    });
   };
 
-  var onOfferDialogCloseEvent = function (event) {
-    if (event.type === 'click' || (event.type === 'keydown' && event.keyCode === window.util.ENTER_KEYCODE)) {
-      deactivatePinAndOffer();
-    }
+  var onOfferDialogCloseClick = function () {
+    deactivatePinAndOffer();
   };
-  var filters = document.querySelector('.tokyo__filters');
+  var onOfferDialogCloseKeydown = function (event) {
+    window.util.isEnterEvent(event, deactivatePinAndOffer);
+  };
 
   var removeAllPins = function () {
     var pins = document.querySelectorAll('.pin');
@@ -95,7 +104,7 @@
     pinMap.appendChild(pinFragment);
   };
 
-  var successHandler = function (offers) {
+  var onSuccessLoad = function (offers) {
     window.map.offers = offers;
     generateOffersID(window.map.offers);
     generatePinsOnMap(NUMBER_OF_SHOWN_PINS);
@@ -104,7 +113,7 @@
     });
   };
 
-  var errorHandler = function (errorMessage) {
+  var onErrorLoad = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     node.style.position = 'absolute';
@@ -116,12 +125,12 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  window.backend.load(successHandler, errorHandler);
+  window.backend.load(onSuccessLoad, onErrorLoad);
 
-  pinMap.addEventListener('click', onPinMapEvent);
-  pinMap.addEventListener('keydown', onPinMapEvent);
-  offerDialogClose.addEventListener('click', onOfferDialogCloseEvent);
-  offerDialogClose.addEventListener('keydown', onOfferDialogCloseEvent);
+  pinMap.addEventListener('click', onPinMapClick);
+  pinMap.addEventListener('keydown', onPinMapKeydown);
+  offerDialogClose.addEventListener('click', onOfferDialogCloseClick);
+  offerDialogClose.addEventListener('keydown', onOfferDialogCloseKeydown);
   pinMain.addEventListener('mousedown', function (event) {
     event.preventDefault();
     var startPosition = {

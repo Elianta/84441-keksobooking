@@ -5,7 +5,7 @@
   var pinMap = document.querySelector('.tokyo__pin-map');
 
   window.pin = {
-    activePin: '',
+    pinActive: '',
     pointerPosition: {
       left: -PIN_BACKGROUND_WIDTH / 2,
       top: -PIN_BACKGROUND_HEIGHT
@@ -21,9 +21,9 @@
       return pinElement;
     },
     removeActivePin: function () {
-      this.activePin = pinMap.querySelector('.pin--active');
-      if (this.activePin) {
-        this.activePin.classList.remove('pin--active');
+      this.pinActive = pinMap.querySelector('.pin--active');
+      if (this.pinActive) {
+        this.pinActive.classList.remove('pin--active');
       }
     }
   };

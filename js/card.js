@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var offerDialog = document.getElementById('offer-dialog');
-  var dialogTitle = offerDialog.querySelector('.dialog__title');
+  var titleDialog = offerDialog.querySelector('.dialog__title');
   var lodgeTemplate = document.querySelector('#lodge-template').content;
 
   var replaceOfferType = function (type) {
@@ -47,11 +47,11 @@
   window.card = {
     show: function (target) {
       var pinID = target.dataset.id;
-      var oldDialogPanel = offerDialog.querySelector('.dialog__panel');
-      var newDialogPanel = renderLodgePopupOffer(window.offers[pinID]);
+      var oldDialog = offerDialog.querySelector('.dialog__panel');
+      var newDialog = renderLodgePopupOffer(window.map.offers[pinID]);
       window.util.showElement(offerDialog);
-      offerDialog.replaceChild(newDialogPanel, oldDialogPanel);
-      dialogTitle.querySelector('img').src = generateTitleImgSource(window.offers[pinID]);
+      offerDialog.replaceChild(newDialog, oldDialog);
+      titleDialog.querySelector('img').src = generateTitleImgSource(window.map.offers[pinID]);
     }
   };
 })();

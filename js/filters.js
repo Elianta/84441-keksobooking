@@ -37,6 +37,7 @@
     }
     return false;
   };
+
   var isSuitableNumber = function (offer, offerKeyString, selectedFilters) {
     var number = selectedFilters[offerKeyString];
     if (number !== 'any') {
